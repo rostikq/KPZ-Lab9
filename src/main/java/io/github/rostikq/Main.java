@@ -13,13 +13,10 @@ public class Main {
         System.out.println(" Породжувальні шаблони проєктування");
         System.out.println("======================================");
 
-        // Завдання 1 — Prototype
         PrototypeDemo.run();
 
-        // Завдання 2 — Object Pool
         VanPool.runDemo();
 
-        // Завдання 3 — Singleton
         SingletonDemo.run();
 
         System.out.println("\nУсі завдання виконано.");

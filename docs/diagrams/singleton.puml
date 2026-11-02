@@ -1,0 +1,57 @@
+@startuml SingletonPattern
+title Завдання 3 — Singleton: Єдина нумерація відправлень
+
+skinparam classAttributeIconSize 0
+
+class InvoiceNumberService <<Singleton>> {
+    - {static} INSTANCE: InvoiceNumberService
+    - nextNumber: int
+
+    - InvoiceNumberService()
+    + {static} getInstance(): InvoiceNumberService
+    + {synchronized} generateNumber(): String
+}
+
+class SingletonDemo <<Client>> {
+    + run(): void
+}
+
+class Branch1 <<Client>> {
+    - service: InvoiceNumberService
+    + createShipment(): String
+}
+
+class Branch2 <<Client>> {
+    - service: InvoiceNumberService
+    + createShipment(): String
+}
+
+class OnlineCabinet <<Client>> {
+    - service: InvoiceNumberService
+    + createShipment(): String
+}
+
+SingletonDemo ..> InvoiceNumberService : отримує екземпляр
+Branch1 --> InvoiceNumberService : використовує
+Branch2 --> InvoiceNumberService : використовує
+OnlineCabinet --> InvoiceNumberService : використовує
+
+note right of InvoiceNumberService
+  Singleton:
+  - приватний конструктор;
+  - єдиний статичний INSTANCE;
+  - доступ через getInstance();
+  - спільний лічильник номерів;
+  - synchronized generateNumber()
+    для синхронізації викликів.
+end note
+
+note bottom of SingletonDemo
+  Демонстрація:
+  3 підрозділи × 3 відправлення = 9 номерів.
+
+  POS-0001 ... POS-0009
+  Усі номери унікальні.
+end note
+
+@enduml

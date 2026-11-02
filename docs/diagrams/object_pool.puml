@@ -1,0 +1,55 @@
+@startuml ObjectPoolPattern
+title Завдання 2 — Object Pool: Парк фургонів
+
+skinparam classAttributeIconSize 0
+
+class VanPool <<Object Pool>> {
+    - availableVans: Queue<Van>
+    - allVans: List<Van>
+    - waitingCouriers: Queue<String>
+
+    + VanPool(capacity: int)
+    + acquire(courier: String): Van
+    + release(van: Van): void
+    + runDemo(): void
+}
+
+class Van <<Pooled Object>> {
+    - id: int
+    - courier: String
+    - shipment: String
+    - completedTrips: int
+
+    + assign(courier: String, shipment: String): void
+    + completeTrip(): void
+    + reset(): void
+}
+
+class VanPoolDemo <<Client>> {
+    + runDemo(): void
+}
+
+VanPool "1" *-- "0..3" Van : створює та обліковує
+VanPool ..> Van : видає та повертає
+VanPoolDemo ..> VanPool : використовує пул
+
+note right of VanPool
+  Object Pool:
+  - обмежена кількість фургонів;
+  - видача вільного фургона;
+  - очікування, якщо всі зайняті;
+  - повернення фургона в пул.
+end note
+
+note right of Van
+  Pooled Object:
+  Після завершення рейсу
+  стан фургона скидається:
+  courier = null
+  shipment = null
+
+  completedTrips зберігається
+  для ведення статистики.
+end note
+
+@enduml

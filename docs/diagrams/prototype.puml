@@ -1,0 +1,38 @@
+@startuml PrototypePattern
+title Завдання 1 — Prototype: Клонування маршрутів доставки
+
+skinparam classAttributeIconSize 0
+
+class DeliveryRoute <<Prototype>> {
+    - name: String
+    - courier: String
+    - maxWeight: double
+    - stops: List<String>
+    - tariffs: Map<String, Double>
+
+    + DeliveryRoute(name: String, courier: String, maxWeight: double, stops: List<String>, tariffs: Map<String, Double>)
+    + copy(): DeliveryRoute
+    + setCourier(courier: String): void
+    + setMaxWeight(maxWeight: double): void
+    + addStop(stop: String): void
+    + printInfo(): void
+}
+
+class PrototypeDemo <<Client>> {
+    + run(): void
+}
+
+PrototypeDemo ..> DeliveryRoute : створює шаблон\nта викликає copy()
+DeliveryRoute ..> DeliveryRoute : створює незалежну копію
+
+note right of DeliveryRoute
+  Prototype:
+  copy() створює новий об'єкт
+  із даними поточного маршруту.
+
+  Колекції stops і tariffs
+  копіюються окремо, тому їхня
+  зміна не змінює оригінал.
+end note
+
+@enduml
